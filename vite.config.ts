@@ -1,3 +1,4 @@
+import path from "path"
 import { vitePluginViteNodeMiniflare } from "@hiogawa/vite-node-miniflare";
 import { reactRouter } from "@react-router/dev/vite";
 import autoprefixer from "autoprefixer";
@@ -46,4 +47,9 @@ export default defineConfig(({ isSsrBuild }) => ({
     reactRouter(),
     tsconfigPaths(),
   ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./app"),
+    },
+  },
 }));

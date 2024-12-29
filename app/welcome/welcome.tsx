@@ -1,3 +1,5 @@
+
+import { Button } from "~/components/ui/button";
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
 
@@ -42,6 +44,10 @@ export function Welcome({ message }: { message: string }) {
             </ul>
           </nav>
         </div>
+      </div>
+
+      <div>
+        <Button>Click me</Button>
       </div>
     </main>
   );
