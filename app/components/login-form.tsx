@@ -3,10 +3,22 @@ import { Button } from "~/components/ui/button"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
 import { useForm, type SubmitHandler } from "react-hook-form"
+import { sendEmailWithGmail } from "~/gmail/gmail.server"
+import type { Route } from "../routes/+types/home"
 
 type Inputs = {
   example: string
   exampleRequired: string
+}
+
+export async function action({
+  request,
+}: Route.ActionArgs) {
+  const formData = await request.formData();
+  const from = formData.get("email");
+  const content = formData.get("content");
+
+  const response = await sendEmailWithGmail({from, content});
 }
 
 export function LoginForm({
@@ -42,13 +54,13 @@ export function LoginForm({
         </div>
         <div className="grid gap-2">
           <div className="flex items-center">
-            <Label htmlFor="phone">Phone</Label>
+            <Label htmlFor="tel">Telephone</Label>
           </div>
-          <Input id="password" type="password" required />
+          <Input id="tel" type="tel" required />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="message">Message</Label>
-          <Input id="message" type="message" required />
+          <Input id="message" type="text" required />
         </div>
         <Button type="submit" className="w-full">
           Send

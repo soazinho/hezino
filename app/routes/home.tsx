@@ -3,6 +3,7 @@ import { Pyramid } from "lucide-react"
 import { LoginForm } from "~/components/login-form"
 
 import website from "./website.svg";
+import { sendEmailWithGmail } from "~/gmail/gmail.server";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -15,7 +16,7 @@ export function loader({ context }: Route.LoaderArgs) {
   return { message: context.VALUE_FROM_CLOUDFLARE };
 }
 
-export default function Home({ loaderData }: Route.ComponentProps) {
+export default function Home({ loaderData, actionData }: Route.ComponentProps) {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-12 p-6 md:px-24">
@@ -40,6 +41,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           alt="Image"
         />
       </div>
+
+      {actionData ? (
+        <p>Your email has been sent succesfully!</p>
+      ) : null}
     </div>
   )
 }
