@@ -47,9 +47,4 @@ export default defineConfig(({ isSsrBuild }) => ({
     reactRouter(),
     tsconfigPaths(),
   ],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./app"),
-    },
-  },
 }));

@@ -2,6 +2,7 @@
 import nodemailer from "nodemailer";
 
 export type GmailEmailMessage = {
+    email: string,
     from: string,
     content: string,
 };

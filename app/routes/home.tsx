@@ -1,50 +1,57 @@
+import { useFetcher, data } from "react-router";
 import type { Route } from "./+types/home";
-import { Pyramid } from "lucide-react"
-import { LoginForm } from "~/components/login-form"
+import { sendEmailWithGmail } from "~/.server/gmail.server";
 
-import website from "./website.svg";
-import { sendEmailWithGmail } from "~/gmail/gmail.server";
+export default function Home(_: Route.ComponentProps) {
+  let fetcher = useFetcher();
 
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "hezino" },
-    { name: "description", content: "hezino web development" },
-  ];
-}
-
-export function loader({ context }: Route.LoaderArgs) {
-  return { message: context.VALUE_FROM_CLOUDFLARE };
-}
-
-export default function Home({ loaderData, actionData }: Route.ComponentProps) {
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="flex flex-col gap-12 p-6 md:px-24">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <Pyramid className="size-4" />
-            </div>
-            hezino
-          </a>
-        </div>
-        <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-xs">
-            <LoginForm />
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-center items-center w-full sm:h-screen overflow-hidden">
-        <img
-          src={website}
-          className="bg-none m-16 w-3/4 sm:w-96 md:w-128 lg:w-256 object-contain"
-          alt="Image"
-        />
-      </div>
+    <fetcher.Form method="post">
+      <p>
+        <input type="text" name="name" />
+      </p>
 
-      {actionData ? (
-        <p>Your email has been sent succesfully!</p>
-      ) : null}
-    </div>
-  )
+      <p>
+        <input type="email" name="email" />
+      </p>
+
+      <p>
+        <input type="text" name="message" />
+      </p>
+
+      <button type="submit">Send</button>
+    </fetcher.Form>
+  );
+}
+
+export async function action({
+  request,
+}: Route.ActionArgs) {
+  const formData = await request.formData();
+
+  const name = String(formData.get("name"));
+  const email = String(formData.get("email"));
+  const message = String(formData.get("message"));
+
+  const errors = {} as any;
+
+  if (name.length < 2) {
+    errors.name =
+      "Name should be at least 2 characters.";
+  }
+
+  if (!email.includes("@")) {
+    errors.email = "Invalid email address.";
+  }
+
+  if (message.length < 12) {
+    errors.password =
+      "Message should be at least 12 characters.";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return data({ errors }, { status: 400 });
+  }
+
+  await sendEmailWithGmail({email: email, from: name ,content: message})
 }

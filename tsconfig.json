@@ -10,11 +10,5 @@
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
-
-    // shadcn
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./app/*"],
-    }
   }
 }
