@@ -18,7 +18,7 @@ export function loader({ context }: Route.LoaderArgs) {
 export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="flex flex-col gap-12 p-6 md:p-10">
+      <div className="flex flex-col gap-12 p-6 md:px-24">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium">
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
@@ -33,9 +33,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           </div>
         </div>
       </div>
-      <div className="flex bg-muted justify-center items-center">
+      <div className="flex justify-center items-center w-full sm:h-screen overflow-hidden">
         <img
           src={website}
+          className="bg-none m-16 w-3/4 sm:w-96 md:w-128 lg:w-256 object-contain"
           alt="Image"
         />
       </div>
