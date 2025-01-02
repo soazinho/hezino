@@ -1,6 +1,6 @@
 import { useFetcher, data } from "react-router";
 import type { Route } from "./+types/home";
-import { sendEmailWithGmail } from "~/.server/gmail.server";
+import { sendEmailWithGmail } from "~/lib/gmail.server";
 
 export default function Home(_: Route.ComponentProps) {
   let fetcher = useFetcher();
