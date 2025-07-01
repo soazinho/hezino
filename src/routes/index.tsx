@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import logo from '../europeana.jpg'
+import europeanaLogo from '../europeana.jpg'
 import linkedInLogo from '../linkedin.svg'
 
 export const Route = createFileRoute('/')({
@@ -15,34 +15,29 @@ function App() {
   };
 
   return (
-    <div className="h-full min-h-screen flex flex-col px-24 py-12">
-      <header className="flex flex-row justify-between">
-        <h1>hezino</h1>
-        <nav>
-          <ul>
-            <li className="cursor-pointer">
-              <img
-                src={linkedInLogo}
-                className="h-8"
-                onClick={navigateToLinkedIn}
-                alt="Europeana"
-              />
-            </li>
-          </ul>
-        </nav>
+    <div className="min-h-screen flex flex-col">
+      <header className="flex flex-row justify-between mx-16 mt-8 pb-8">
+        <h1 className="text-4xl">hezino</h1>
+          <img
+            src={linkedInLogo}
+            className="h-8 cursor-pointer"
+            onClick={navigateToLinkedIn}
+            alt="Europeana"
+          />
       </header>
-      <main className='flex flex-row justify-center items-center flex-1 gap-24'>  
+      <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
+      <main className='flex flex-row justify-center items-center gap-24 flex-1'>  
         <div>
           Developing your app whatever the requirements.
         </div>
         <img
-          src={logo}
+          src={europeanaLogo}
           className="h-[40vmin] pointer-events-none"
           alt="Europeana"
         />
       </main>
 
-      <footer className="flex justify-center">
+      <footer className="flex justify-center pb-8">
         <div>hezino 2025.</div>
       </footer>
     </div>
