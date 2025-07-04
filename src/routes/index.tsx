@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="flex flex-row justify-between mx-16 mt-8 pb-8">
-        <h1 className="text-4xl">hezino</h1>
+        <h1 className="text-4xl font-semibold">hezino</h1>
           <img
             src={linkedInLogo}
             className="h-8 cursor-pointer"
@@ -26,13 +26,19 @@ function App() {
           />
       </header>
       <hr className="h-px bg-gray-200 border-0 dark:bg-gray-700"></hr>
-      <main className='flex flex-row justify-center items-center gap-24 flex-1'>  
-        <div>
-          Developing your app whatever the requirements.
+      <main className="flex-1 flex flex-col gap-16 m-16 justify-center items-center sm:flex-row">  
+        <div className='flex flex-col gap-4 justify-center items-center'>
+          <h2 className="text-2xl font-medium text-center">
+            Applications web et mobile sur mesure.
+          </h2>
+
+          <button className="w-48 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+            Contactez-nous!
+          </button>
         </div>
         <img
           src={europeanaLogo}
-          className="h-[40vmin] pointer-events-none"
+          className="sm:h-[40vmin] pointer-events-none"
           alt="Europeana"
         />
       </main>
