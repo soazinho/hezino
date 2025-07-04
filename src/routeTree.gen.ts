@@ -9,38 +9,118 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from "./routes/__root"
+import { Route as LoginRouteImport } from "./routes/login"
+import { Route as _authRouteImport } from "./routes/__auth"
 import { Route as IndexRouteImport } from "./routes/index"
+import { Route as _authInvoicesRouteImport } from "./routes/__auth.invoices"
+import { Route as _authDashboardRouteImport } from "./routes/__auth.dashboard"
+import { Route as _authInvoicesIndexRouteImport } from "./routes/__auth.invoices.index"
+import { Route as _authInvoicesInvoiceIdRouteImport } from "./routes/__auth.invoices.$invoiceId"
 
+const LoginRoute = LoginRouteImport.update({
+  id: "/login",
+  path: "/login",
+  getParentRoute: () => rootRouteImport,
+} as any)
+const _authRoute = _authRouteImport.update({
+  id: "/__auth",
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => rootRouteImport,
 } as any)
+const _authInvoicesRoute = _authInvoicesRouteImport.update({
+  id: "/invoices",
+  path: "/invoices",
+  getParentRoute: () => _authRoute,
+} as any)
+const _authDashboardRoute = _authDashboardRouteImport.update({
+  id: "/dashboard",
+  path: "/dashboard",
+  getParentRoute: () => _authRoute,
+} as any)
+const _authInvoicesIndexRoute = _authInvoicesIndexRouteImport.update({
+  id: "/",
+  path: "/",
+  getParentRoute: () => _authInvoicesRoute,
+} as any)
+const _authInvoicesInvoiceIdRoute = _authInvoicesInvoiceIdRouteImport.update({
+  id: "/$invoiceId",
+  path: "/$invoiceId",
+  getParentRoute: () => _authInvoicesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute
+  "/login": typeof LoginRoute
+  "/dashboard": typeof _authDashboardRoute
+  "/invoices": typeof _authInvoicesRouteWithChildren
+  "/invoices/$invoiceId": typeof _authInvoicesInvoiceIdRoute
+  "/invoices/": typeof _authInvoicesIndexRoute
 }
 export interface FileRoutesByTo {
   "/": typeof IndexRoute
+  "/login": typeof LoginRoute
+  "/dashboard": typeof _authDashboardRoute
+  "/invoices/$invoiceId": typeof _authInvoicesInvoiceIdRoute
+  "/invoices": typeof _authInvoicesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   "/": typeof IndexRoute
+  "/__auth": typeof _authRouteWithChildren
+  "/login": typeof LoginRoute
+  "/__auth/dashboard": typeof _authDashboardRoute
+  "/__auth/invoices": typeof _authInvoicesRouteWithChildren
+  "/__auth/invoices/$invoiceId": typeof _authInvoicesInvoiceIdRoute
+  "/__auth/invoices/": typeof _authInvoicesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: "/"
+  fullPaths:
+    | "/"
+    | "/login"
+    | "/dashboard"
+    | "/invoices"
+    | "/invoices/$invoiceId"
+    | "/invoices/"
   fileRoutesByTo: FileRoutesByTo
-  to: "/"
-  id: "__root__" | "/"
+  to: "/" | "/login" | "/dashboard" | "/invoices/$invoiceId" | "/invoices"
+  id:
+    | "__root__"
+    | "/"
+    | "/__auth"
+    | "/login"
+    | "/__auth/dashboard"
+    | "/__auth/invoices"
+    | "/__auth/invoices/$invoiceId"
+    | "/__auth/invoices/"
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  _authRoute: typeof _authRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
+    "/login": {
+      id: "/login"
+      path: "/login"
+      fullPath: "/login"
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    "/__auth": {
+      id: "/__auth"
+      path: ""
+      fullPath: ""
+      preLoaderRoute: typeof _authRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     "/": {
       id: "/"
       path: "/"
@@ -48,11 +128,67 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    "/__auth/invoices": {
+      id: "/__auth/invoices"
+      path: "/invoices"
+      fullPath: "/invoices"
+      preLoaderRoute: typeof _authInvoicesRouteImport
+      parentRoute: typeof _authRoute
+    }
+    "/__auth/dashboard": {
+      id: "/__auth/dashboard"
+      path: "/dashboard"
+      fullPath: "/dashboard"
+      preLoaderRoute: typeof _authDashboardRouteImport
+      parentRoute: typeof _authRoute
+    }
+    "/__auth/invoices/": {
+      id: "/__auth/invoices/"
+      path: "/"
+      fullPath: "/invoices/"
+      preLoaderRoute: typeof _authInvoicesIndexRouteImport
+      parentRoute: typeof _authInvoicesRoute
+    }
+    "/__auth/invoices/$invoiceId": {
+      id: "/__auth/invoices/$invoiceId"
+      path: "/$invoiceId"
+      fullPath: "/invoices/$invoiceId"
+      preLoaderRoute: typeof _authInvoicesInvoiceIdRouteImport
+      parentRoute: typeof _authInvoicesRoute
+    }
   }
 }
 
+interface _authInvoicesRouteChildren {
+  _authInvoicesInvoiceIdRoute: typeof _authInvoicesInvoiceIdRoute
+  _authInvoicesIndexRoute: typeof _authInvoicesIndexRoute
+}
+
+const _authInvoicesRouteChildren: _authInvoicesRouteChildren = {
+  _authInvoicesInvoiceIdRoute: _authInvoicesInvoiceIdRoute,
+  _authInvoicesIndexRoute: _authInvoicesIndexRoute,
+}
+
+const _authInvoicesRouteWithChildren = _authInvoicesRoute._addFileChildren(
+  _authInvoicesRouteChildren,
+)
+
+interface _authRouteChildren {
+  _authDashboardRoute: typeof _authDashboardRoute
+  _authInvoicesRoute: typeof _authInvoicesRouteWithChildren
+}
+
+const _authRouteChildren: _authRouteChildren = {
+  _authDashboardRoute: _authDashboardRoute,
+  _authInvoicesRoute: _authInvoicesRouteWithChildren,
+}
+
+const _authRouteWithChildren = _authRoute._addFileChildren(_authRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  _authRoute: _authRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

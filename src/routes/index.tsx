@@ -3,12 +3,11 @@ import europeanaLogo from '../europeana.jpg'
 import linkedInLogo from '../linkedin.svg'
 
 export const Route = createFileRoute('/')({
-  component: App,
+  component: Home,
 })
 
-function App() {
+function Home() {
   const navigate = useNavigate();
-
 
   const navigateToLinkedIn = () => {
     navigate({ href: "https://www.linkedin.com/in/hugues-soares" });
